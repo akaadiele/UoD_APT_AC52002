@@ -33,25 +33,25 @@ int main() {
 		• aged 55 or over, free
 		*/
 
-		//int age;
-		//cout << "Please enter your age \n";
-		//cin >> age;
+	//int age;
+	//cout << "Please enter your age \n";
+	//cin >> age;
 
-		//if (age < 5) {
-		//	cout << "Your cinema fee is 'free'" << endl;
-		//}
-		//else if (age >= 5 && age <= 12) {
-		//	cout << "Your cinema fee is 'Half Price'" << endl;
-		//}
-		//else if (age > 13 && age < 54) {
-		//	cout << "Your cinema fee is 'Full Price'" << endl;
-		//}
-		//else if (age >= 55) {
-		//	cout << "Your cinema fee is 'free'" << endl;
-		//}
-		//else {
-		//	cout << "Invalid input" << endl;
-		//}
+	//if (age < 5) {
+	//	cout << "Your cinema fee is 'free'" << endl;
+	//}
+	//else if (age >= 5 && age <= 12) {
+	//	cout << "Your cinema fee is 'Half Price'" << endl;
+	//}
+	//else if (age > 13 && age < 54) {
+	//	cout << "Your cinema fee is 'Full Price'" << endl;
+	//}
+	//else if (age >= 55) {
+	//	cout << "Your cinema fee is 'free'" << endl;
+	//}
+	//else {
+	//	cout << "Invalid input" << endl;
+	//}
 
 
 	// ------------------------------------------------------------------------
@@ -59,17 +59,17 @@ int main() {
 	//	Repeat this exercise using a do while loop.Finally, repeat it using a for loop.
 
 	//int count = 1;
-	
+
 	/*while (count <= 100) {
 		cout << count << " ";
-		
+
 		if (count % 10 == 0) {
 			cout << endl;
 		}
 		count++;
 	}*/
 
-	
+
 	/*do {
 		cout << count << " ";
 
@@ -122,7 +122,7 @@ int main() {
 	//6. Write a program that adds up the numbers 0 to 39 using a for loop.
 	//You should then check the result by using the formula for the sum of numbers from 0 to n, which is n(n +1) / 2
 
-	int count = 0, sum = 0, countMax = 39;
+	//int count = 0, sum = 0, countMax = 39;
 
 	//do {
 	//	cout << "count is: " << count << endl;
@@ -136,26 +136,111 @@ int main() {
 	//sum = countMax * (countMax + 1) / 2;
 	//cout << "\nThe sum of the numbers from 0 to " << countMax << " is: " << sum << endl;
 
-// ------------------------------------------------------------------------
+	// ------------------------------------------------------------------------
+	//7. Write a program that uses a loop to draw a rectangle with the letter ‘s’, of length 4 and
+	//width 3, i.e.
+	//ssss
+	//ssss
+	//ssss
 
-	//for (int length = 0, width = 0; (length < 4) && (width < 3); length++, width++)
-	//{
-	//	//cout << “length, width” << length << “, ” << width << endl;
-	//	cout << "s";
-	//}
-
-	for (int width = 0; width < 3; width++)
+	/*for (int width = 0; width < 3; width++)
 	{
 		for (int length = 0; length < 4; length++) {
 		cout << "s";
 		}
 		cout << endl;
+	}*/
+
+	// ------------------------------------------------------------------------
+
+	//srand(time(0));
+	//int randomNum;
+	//for (int i = 1; i <= 3; i++) {
+	//	randomNum = rand() % 7;
+	//	cout << randomNum << endl;
+	//}
+
+	// ------------------------------------------------------------------------
+	//8(a).A group of people are betting on the outcome of three throws of a single die.A person bets
+	//£1 on predicting the outcome of three throws.Write a program that asks the user to input the
+	//values of the three throws and displays the winnings according to the following rules :
+	//• all 3 dice are sixes : win £20
+	//• all three dice are the same(but not sixes) : win £10
+	//• any two dice are the same : win £5
+	//
+	//Optional extras :
+	//8(b)Read up about rand(, ) and try to generate the three dice numbers automatically.
+
+	//int randomNum = 0, dice = 0, winCount = 0, sixCount = 0;
+	//
+	//for (int i = 1; i <= 3; i++) {
+	//	cout << "Please enter a number between 1 and 6 for your dice throw: ";
+	//	cin >> dice;
+
+	//	randomNum = rand() % 7;
+	//	cout << randomNum << endl;
+
+	//	if (randomNum == dice) {
+	//		cout << "You win!" << endl;
+	//		winCount++;
+
+	//		if (randomNum == 6) {
+	//			sixCount++;
+	//		}
+	//	}
+	//	else {
+	//		cout << "You lose!" << endl;
+	//	}
+	//}
+
+	//cout << "You have won " << winCount << " times." << endl;
+	//cout << "You have rolled a 6 " << sixCount << " times." << endl;
+
+	//if (sixCount == 3) {
+	//	cout << "\nYou have won £20" << endl;
+	//}
+	//else {
+	//	if ((sixCount == 0) && (winCount == 3)) {
+	//		cout << "\nYou have won £10" << endl;
+	//	}
+	//	else {
+	//		if (winCount == 2) {
+	//			cout << "\nYou have won £5" << endl;
+	//		}
+	//	}
+	//}
+
+	// ------------------------------------------------------------------------
+	//9. (Harder)Write a program to take in a year as an integer(e.g. 1989, 2007) and determine if the
+	//year is a leap year.
+	//(A leap year is one divisible by 4, unless it ends in 00, in which case it is only a leap year if it is divisible by 400, so 2000 was a leap year but 1900 was not.)
+
+
+	int year = 0;
+	cout << "Please enter a year: ";
+	cin >> year;
+
+	if (year % 4 == 0) {
+		if (year % 100 == 0) {
+			if (year % 400 == 0) {
+				cout << year << " is a Leap year" << endl;
+			}
+			else {
+				cout << year << " is not a leap year" << endl;
+			}
+		}
+		else {
+			cout << year << " is a Leap year" << endl;
+		}
 	}
-
+	else {
+		cout << year << " is a Leap year" << endl;
+	}
 	// ------------------------------------------------------------------------
 
 
 	// ------------------------------------------------------------------------
+
 
 	// ------------------------------------------------------------------------
 
