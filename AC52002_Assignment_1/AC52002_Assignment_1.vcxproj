@@ -127,11 +127,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="stack001.h" />
-    <ClInclude Include="stacktemplate001.h" />
+    <ClInclude Include="stack_def.h" />
+    <ClInclude Include="stack_template.h" />
+    <ClInclude Include="stock_def.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="stock_portfolio.cpp" />
+    <ClCompile Include="portfolio_trading_system.cpp" />
+    <ClCompile Include="stock.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
