@@ -1,5 +1,5 @@
-#ifndef STACK_DEF_H
-#define STACK_DEF_H
+#ifndef STACK_QUEUE_DEF_H
+#define STACK_QUEUE_DEF_H
 
 #include <string>
 
@@ -23,15 +23,14 @@ public:
     bool push(const Type& new_element);
     bool pop(Type& top_element);
     bool remove(Type& front_element);
-    //bool remove();
-
+    bool add(const Type& new_element);
+    
     Type top();
     Type bottom();
 
     void printStack();
-
-    Type getContents();
     int getIndexOfTop();
+    int getStockStack();
 
     void deleteAllOccurence(Type delete_element);
     void duplicate();

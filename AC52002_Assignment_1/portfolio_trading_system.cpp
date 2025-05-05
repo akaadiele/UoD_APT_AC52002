@@ -1,201 +1,162 @@
 //#include <iostream>
-//#include <string>
-//using namespace std;
-
-#include "stack_template.h"
-#include "stock_def.h"
-
+#include <string>
 #include <fstream>
 
-// Global variables
-int numberOfStocks;
-Stack<Stock> stockStack(numberOfStocks);
+//#include <chrono>
+//#include <thread>
 
-// Function prototypes
-void stockPerformance();
-void findStock();
-bool setUpTestData();
-bool setUpTestDataFromFile();
-void showStockPortfolio();
+#include "stack_queue_template.h"
+#include "stock_def.h"
+
+using namespace std;
+
+
+// ------------------------------------------------------------------------
+// Function definitions
+void stockPerformance(Stack<Stock> stockStack);
+void findStock(Stack<Stock> stockStack);
+Stack<Stock> setUpTestData();
+Stack<Stock> setUpTestDataFromFile();
+void showStockPortfolio(Stack<Stock> stockStack);
+// ------------------------------------------------------------------------
 string stringToUpperCase(string str);
+bool sellFifo(string stockToTrade, Stack<Stock> stockStack);
+bool buyLifo(string stockToTrade, Stack<Stock> stockStack);
+bool sellLifo(string stockToTrade, Stack<Stock> stockStack);
+// ------------------------------------------------------------------------
 
-bool sellFifo(string stockToTrade);
-bool buyLifo(string stockToTrade);
-bool sellLifo(string stockToTrade);
 
 int main() {
+	Stack<Stock> portfolioStack;
 
 	int menuInput;
-	char quitInput = 'N';
+	string quitInput;
 
-	while (toupper(quitInput) != 'Y') {
-		cout << "\nWelcome to KRYSTAL Stock Portfolio Trading System! \n" << endl;
-
+	do {
+		cout << "\n------------------------------------------------------------------------" << endl;
+		cout << "************************************************************************" << endl;
+		cout << "------------------------------------------------------------------------" << endl;
+		cout << "Welcome to KRYSTAL Stock Portfolio Trading System! \n" << endl;
 		cout << "Enter 1 to enter a stock performance" << endl;
 		cout << "Enter 2 to find stock" << endl;
-		cout << "Enter 3 to set up test data" << endl;		cout << "Enter 4 to show stock portfolio" << endl;
-
+		cout << "Enter 3 to set up test data" << endl;
+		cout << "Enter 4 to show stock portfolio" << endl;
+		cout << "Enter 0 to quit program" << endl;
 		cin >> menuInput;
 
-		switch (menuInput)
-		{
-		case 1:
-			cout << "Enter stock name" << endl;
-			break;
+		if ( (menuInput < 0) || (menuInput > 4) ) {
+			cout << "\n! Invalid input" << endl;
+			cout << "Exiting program..." << endl;
 
+			exit(0);
+		}
+		else {
 
-		case 2:
-			findStock();
-			break;
-
-
-		case 3:
-			cout << "Setting up test data: " << endl;
-			cout << "Enter 1 to set up test data manually" << endl;
-			cout << "Enter 2 to set up test data from file\n" << endl;
-			int testDataInput;
-			cin >> testDataInput;
-			switch (testDataInput)
+			switch (menuInput)
 			{
 			case 1:
-				cout << "Setting up test data manually \n" << endl;
-				setUpTestData() ? cout << "Test data set up successfully." << endl : cout << "Failed to set up test data." << endl;
+				stockPerformance(portfolioStack);
+				quitInput = "N";
 				break;
+
 			case 2:
-				cout << "Setting up test data from file \n" << endl;
-				setUpTestDataFromFile() ? cout << "Test data set up successfully." << endl : cout << "Failed to set up test data." << endl;
+				findStock(portfolioStack);
+				quitInput = "N";
 				break;
+
+			case 3:
+				cout << "\nSetting up test data: " << endl;
+				cout << "Enter 1 to set up test data manually" << endl;
+				cout << "Enter 2 to set up test data from file\n" << endl;
+				int testDataInput;
+				cin >> testDataInput;
+
+				switch (testDataInput)
+				{
+				case 1:
+					cout << "\nSetting up data manually..." << endl;
+					portfolioStack = setUpTestData();
+					if (!portfolioStack.empty()) { cout << "\nData set up successfully." << endl; }
+					else { cout << "\nFailed to set up test data." << endl; }
+					break;
+
+				case 2:
+					cout << "\nSetting up data from file..." << endl;
+					portfolioStack = setUpTestDataFromFile();
+					if (!portfolioStack.empty()) { cout << "\nData set up successfully." << endl; }
+					else { cout << "\nFailed to set up test data." << endl; }
+					break;
+
+				default:
+					cout << "\n! Invalid input" << endl;
+					break;
+				}
+
+				quitInput = "N";
+				break;
+
+			case 4:
+				showStockPortfolio(portfolioStack);
+				quitInput = "N";
+				break;
+
+			case 0:
+				quitInput = "Y";
+				break;
+
 			default:
-				cout << "Invalid input" << endl;
+				cout << "\n! Invalid input" << endl;
 				break;
 			}
-			break;
-
-
-		case 4:
-			cout << "Showing stock portfolio... \n" << endl;
-			showStockPortfolio();
-			break;
-
-
-		default:
-			cout << "Invalid input" << endl;
-			break;
 		}
 
-		cout << "Enter 'Y' to quit program" << endl;
+		if (quitInput != "N") {
+		cout << "\nConfirm exit? (Y/N)" << endl;
 		cin >> quitInput;
-		if (quitInput == 'Y') {
-			break;
+		quitInput = stringToUpperCase(quitInput);
 		}
-	}
 
-
-
-	/*
-		// Print the stack contents
-		cout << "Stack contents:" << endl;
-		stockStack.printStack();
-		cout << endl;
-
-		// Pop an item from the stack
-		Stock poppedStock;
-		stockStack.pop(poppedStock);
-		cout << "Popped stock: " << poppedStock.getName() << ", " << poppedStock.getNumberOfShares() << ", " << poppedStock.getPricePerShare() << endl;
-		cout << endl;
-
-		// Print the stack contents after popping
-		cout << "Stack contents after popping:" << endl;
-		stockStack.printStack();
-		cout << endl;
-
-		// Duplicate the top element
-		stockStack.duplicate();
-		cout << "Stack contents after duplicating the top element:" << endl;
-		stockStack.printStack();
-		cout << endl;
-
-		// Delete all occurrences of a specific stock
-		string stockToDelete = "MSFT";
-		stockStack.deleteAllOccurence(stockToDelete);
-		cout << "Stack contents after deleting all occurrences of " << stockToDelete << ":" << endl;
-		stockStack.printStack();
-		cout << endl;
-
-		// Get the top and bottom elements
-		Stock topStock = stockStack.top();
-		Stock bottomStock = stockStack.bottom();
-		cout << "Top stock: " << topStock.getName() << ", " << topStock.getNumberOfShares() << ", " << topStock.getPricePerShare() << endl;
-		cout << "Bottom stock: " << bottomStock.getName() << ", " << bottomStock.getNumberOfShares() << ", " << bottomStock.getPricePerShare() << endl;
-		cout << endl;
-
-
-		// Check if the stack is empty
-		if (stockStack.empty()) {
-			cout << "The stack is empty." << endl;
-		}
-		else {
-			cout << "The stack is not empty." << endl;
-		}
-		cout << endl;
-
-
-		// Check if the stack is full
-		if (stockStack.full()) {
-			cout << "The stack is full." << endl;
-		}
-		else {
-			cout << "The stack is not full." << endl;
-		}
-		cout << endl;
-
-
-		// Clear the stack
-		while (!stockStack.empty()) {
-			stockStack.pop(poppedStock);
-			cout << "Popped stock: " << poppedStock.getName() << ", " << poppedStock.getNumberOfShares() << ", " << poppedStock.getPricePerShare() << endl;
-		}
-		cout << endl;
-		cout << "Stack contents after clearing:" << endl;
-		stockStack.printStack();
-		cout << endl;
-		*/
+		//// Waiting for 1 second
+		//this_thread::sleep_for(chrono::seconds(1));	
+	} while (quitInput.compare("Y"));
 
 	return 0;
 }
 
 
-void stockPerformance() {
+void stockPerformance(Stack<Stock> stockStack) {
 	// Function to enter stock performance
 	string stockToTrade;
 	double percentChange;
 
-	cout << "Enter stock name: ";
+	cout << "\nEnter stock name: ";
 	cin >> stockToTrade;
+	stockToTrade = stringToUpperCase(stockToTrade);
 
 	cout << "Enter percentage change: ";
 	cin >> percentChange;
 
 
 	if ((percentChange >= 5) && (percentChange <= 20)) {
-		sellFifo(stockToTrade);
+		sellFifo(stockToTrade, stockStack);
 	}
 	else if ((percentChange >= -1) && (percentChange <= -0.5)) {
-		buyLifo(stockToTrade);
+		buyLifo(stockToTrade, stockStack);
 	}
 	else if ((percentChange >= -3) && (percentChange <= -1.1)) {
-		sellLifo(stockToTrade);
+		sellLifo(stockToTrade, stockStack);
 	}
 	else {
-		cout << "Portforlio is retained." << endl;
+		cout << "\nPortforlio is retained." << endl;
 	}
 }
 
+// ------------------------------------------------------------------------
 
-void findStock() {
+void findStock(Stack<Stock> stockStack) {
 	// Function to find a stock in the portfolio
 	string stockToFind;
-	cout << "Enter the stock name to find: ";
+	cout << "\nEnter the stock name to find: ";
 	cin >> stockToFind;
 	stockToFind = stringToUpperCase(stockToFind);
 
@@ -205,7 +166,7 @@ void findStock() {
 
 	for (int i = 0; i <= stockStack.getIndexOfTop(); i++) {
 		if (stockStack.contents[i].getName() == stockToFind) {
-			searchContent = searchContent + "\n" + to_string(stockStack.contents[i].getNumberOfShares()) + " " + stockStack.contents[i].getName() + "  shares @ £" + to_string(stockStack.contents[i].getPricePerShare());
+			searchContent = searchContent + "\n" + to_string(stockStack.contents[i].getNumberOfShares()) + " " + stockStack.contents[i].getName() + "  shares @ " + (char)156 + to_string(stockStack.contents[i].getPricePerShare());
 
 			numberOfFoundStocks += 1;
 		}
@@ -221,10 +182,12 @@ void findStock() {
 
 }
 
+// ------------------------------------------------------------------------
 
-bool setUpTestData() {
+Stack<Stock> setUpTestData() {
 	// Function to set up test data
-	cout << "Setting up stock data..." << endl;
+	cout << "\nSetting up stock data..." << endl;
+
 	/*
 	int numberOfStocks;
 	cout << "Enter the number of stocks to set up: ";
@@ -254,15 +217,15 @@ bool setUpTestData() {
 	}
 	*/
 
-
 	// ### instant dummy test data
 	// Create a stack of Stock objects
 	int numberOfStocks = 4;
 	Stack<Stock> stockStack(numberOfStocks);
-	Stock stock1("MSFT", 300, 200.39);
-	Stock stock2("GME", 250, 9.39);
-	Stock stock3("MSFT", 500, 214.22);
-	Stock stock4("MSFT", 100, 222.59);
+
+	Stock stock1("MSFT", 100, 200.39);
+	Stock stock2("GME", 500, 9.39);
+	Stock stock3("MSFT", 250, 214.22);
+	Stock stock4("MSFT", 300, 222.59);
 
 	// Push stock objects onto the stack
 	stockStack.push(stock1);
@@ -270,12 +233,13 @@ bool setUpTestData() {
 	stockStack.push(stock3);
 	stockStack.push(stock4);
 
-	return true;
+
+	return stockStack;
 }
 
+// ------------------------------------------------------------------------
 
-
-bool setUpTestDataFromFile() {
+Stack<Stock> setUpTestDataFromFile() {
 	cout << "Setting up stock data from file..." << endl;
 
 	string fileName;
@@ -284,7 +248,7 @@ bool setUpTestDataFromFile() {
 
 	// Function to set up test data from a file
 	ifstream stocksFile;
-	stocksFile.open("fileName");
+	stocksFile.open(fileName);
 
 	// Check if the file opened successfully
 	if (!stocksFile) {
@@ -295,45 +259,64 @@ bool setUpTestDataFromFile() {
 	string stockName;
 	int numberOfShares;
 	double pricePerShare;
-	while (stocksFile >> stockName >> numberOfShares >> pricePerShare) {
-		stockName = stringToUpperCase(stockName);
 
-		Stock newStock(stockName, numberOfShares, pricePerShare);
-		stockStack.push(newStock);
+	// Count number of stocks in file (number of lines in file)
+	int numberOfStocks = 0;
+	while (stocksFile >> stockName >> numberOfShares >> pricePerShare) {
+		numberOfStocks += 1;
 	}
 	stocksFile.close();
 
-	return true;
-}
 
+	// Build the portfolio stack
+	stocksFile.open(fileName);
 
-void showStockPortfolio() {
-	// Show the stock portfolio
-	cout << "Your Current Stock Portfolio:" << endl;
-	cout << "------------------------------------------------------------------------" << endl;
+	Stack<Stock> stockStack(numberOfStocks);
+	while (stocksFile >> stockName >> numberOfShares >> pricePerShare) {
+		string stockNameTemp = string(stockName);
+		int numberOfSharesTemp = int(numberOfShares);
+		double pricePerShareTemp = double(pricePerShare);
 
-	// Print the stack contents
-	stockStack.printStack();
-	cout << endl;
-}
+		stockName = stringToUpperCase(stockName);
 
-
-string stringToUpperCase(string str) {
-	for (char& c : str) {
-		c = toupper(c);
+		Stock newStock(stockNameTemp, numberOfSharesTemp, pricePerShareTemp);
+		stockStack.push(newStock);
 	}
-	return str;
+
+	stocksFile.close();
+
+	return stockStack;
 }
 
+// ------------------------------------------------------------------------
 
-bool sellFifo(string stockToTrade) {
+void showStockPortfolio(Stack<Stock> stockStack) {
+	if (!stockStack.empty()) {
+		// Show the stock portfolio
+		cout << "\nYour Current Stock Portfolio:" << endl;
+		cout << "------------------------------------------------------------------------" << endl;
 
+		// Print the stack contents
+		stockStack.printStack();
+		cout << endl;
+	}
+	else {
+		cout << "\nYour stock portfolio is empty." << endl;
+		cout << "Please set up stock data first." << endl;
+		cout << endl;
+		cout << "------------------------------------------------------------------------" << endl;
+		cout << endl;
+		//exit(0);
+	}
+}
+
+// ------------------------------------------------------------------------
+
+bool sellFifo(string stockToTrade, Stack<Stock> stockStack) {
+	
 	char tradeCompleted = 'N';
-	Stack<Stock> noTradeStockStack(numberOfStocks);
+	Stack<Stock> noTradeStockStack(stockStack.getStockStack());
 	int sharesToTrade;
-
-	cout << "Enter amount of shares to trade: ";
-	cin >> sharesToTrade;
 
 	//Check for total shares for stock available in portfolio to sell
 	int availableShares = 0;
@@ -348,24 +331,26 @@ bool sellFifo(string stockToTrade) {
 
 	// Stock not found in portfolio
 	if (validStock == 'N') {
-		cout << "Stock not found in portfolio." << endl;
+		cout << "\nStock not found in portfolio." << endl;
 		return false;
 	}
 	else {
 		// Print the stock portfolio before trading
-		cout << "Stock portfolio before trading:" << endl;
+		cout << "\nStock portfolio before trading:" << endl;
+		cout << "------------------------------------------------------------------------" << endl;
 		stockStack.printStack();
 		cout << endl;
-		cout << "Trade completed." << endl << endl;
-		return true;
+
+		cout << "\nEnter amount of shares you wish to sell from the earliest purchase: ";
+		cin >> sharesToTrade;
 	}
 
 	// Check if shares to trade are more than available shares
 	if (sharesToTrade > availableShares) {
-		cout << "! Not enough shares to trade." << endl;
+		cout << "\n! Not enough shares to trade." << endl;
 		cout << "Available shares: " << availableShares << endl;
 		cout << "Trade all available shares?" << endl;
-		cout << "Enter 'Y' for yes or 'N' for no: ";
+		cout << "Enter 'Y' for yes or any other key to cancel: ";
 
 		char confirmTrade;
 		cin >> confirmTrade;
@@ -376,7 +361,7 @@ bool sellFifo(string stockToTrade) {
 		}
 		else {
 			// Cancel trade
-			cout << "Trade cancelled." << endl;
+			cout << "\nTrade cancelled." << endl;
 			return false;
 		}
 	}
@@ -396,11 +381,11 @@ bool sellFifo(string stockToTrade) {
 			}
 			else {
 				currentStock.setNumberOfShares(currentStock.getNumberOfShares() - sharesToTrade);
-				//stockStack.remove();
-				//stockStack.push(currentStock);
+				stockStack.remove(currentStock);
+				stockStack.add(currentStock);
 				tradeCompleted = 'Y';
 			}
-			
+
 
 		}
 		else {
@@ -411,23 +396,156 @@ bool sellFifo(string stockToTrade) {
 	// Move stocks back to original stack
 	while (!noTradeStockStack.empty()) {
 		Stock currentStock = noTradeStockStack.bottom();
-		stockStack.push(currentStock);
+		stockStack.add(currentStock);
 		noTradeStockStack.remove(currentStock);
 	}
 
 	// Print the stock portfolio after trading
-	cout << "Stock portfolio after trading:" << endl;
+	cout << "\nStock portfolio after trading:" << endl;
+	cout << "------------------------------------------------------------------------" << endl;
 	stockStack.printStack();
 	cout << endl << endl;
 	cout << "Trade completed." << endl;
 	return true;
 }
 
+// ------------------------------------------------------------------------
 
-bool buyLifo(string stockToTrade) {
+bool buyLifo(string stockToTrade, Stack<Stock> stockStack) {
+	char tradeCompleted = 'N';
+	int sharesToTrade;
+
+	for (int i = stockStack.getIndexOfTop(); i >= 0; i--) {
+		Stock currentStock = stockStack.contents[i];
+		if (currentStock.getName() == stockToTrade) {
+			cout << "\nEnter amount of shares you wish to buy at the current price: ";
+			cin >> sharesToTrade;
+
+			currentStock.setNumberOfShares(currentStock.getNumberOfShares() + sharesToTrade);
+			tradeCompleted = 'Y';
+			break;
+		}
+	}
+
+	if (tradeCompleted == 'N') {
+		cout << "\nStock not found in portfolio." << endl;
+		return false;
+	}
+
+	// Print the stock portfolio after trading
+	cout << "\nStock portfolio after trading:" << endl;
+	cout << "------------------------------------------------------------------------" << endl;
+	stockStack.printStack();
+	cout << endl << endl;
+	cout << "Trade completed." << endl;
 	return true;
 }
 
-bool sellLifo(string stockToTrade) {
+// ------------------------------------------------------------------------
+
+bool sellLifo(string stockToTrade, Stack<Stock> stockStack) {
+
+	char tradeCompleted = 'N';
+	Stack<Stock> noTradeStockStack(stockStack.getStockStack());
+	int sharesToTrade;
+
+
+	//Check for total shares for stock available in portfolio to sell
+	int availableShares = 0;
+	char validStock = 'N';
+	for (int i = stockStack.getIndexOfTop(); i >= 0; i--) {
+		Stock currentStock = stockStack.contents[i];
+		if (currentStock.getName() == stockToTrade) {
+			availableShares += currentStock.getNumberOfShares();
+			validStock = 'Y';
+		}
+	}
+
+	// Stock not found in portfolio
+	if (validStock == 'N') {
+		cout << "\nStock not found in portfolio." << endl;
+		return false;
+	}
+	else {
+		// Print the stock portfolio before trading
+		cout << "\nStock portfolio before trading:" << endl;
+		cout << "------------------------------------------------------------------------" << endl;
+		stockStack.printStack();
+		cout << endl;
+
+		cout << "\nEnter amount of shares you wish to sell from the most recent purchase: ";
+		cin >> sharesToTrade;
+	}
+
+	// Check if shares to trade are more than available shares
+	if (sharesToTrade > availableShares) {
+		cout << "\n! Not enough shares to trade." << endl;
+		cout << "Available shares: " << availableShares << endl;
+		cout << "Trade all available shares?" << endl;
+		cout << "Enter 'Y' for yes or any other key to cancel: ";
+
+		char confirmTrade;
+		cin >> confirmTrade;
+
+		if (toupper(confirmTrade) == 'Y') {
+			// Trade all available shares
+			sharesToTrade = availableShares;
+		}
+		else {
+			// Cancel trade
+			cout << "\nTrade cancelled." << endl;
+			return false;
+		}
+	}
+
+	while ((!stockStack.empty()) && (tradeCompleted == 'N')) {
+		Stock currentStock = stockStack.top();
+		if (currentStock.getName() == stockToTrade) {
+
+			if (sharesToTrade > currentStock.getNumberOfShares()) {
+				sharesToTrade -= currentStock.getNumberOfShares();
+				stockStack.pop(currentStock);
+				tradeCompleted = 'N';
+			}
+			else if (sharesToTrade == currentStock.getNumberOfShares()) {
+				stockStack.pop(currentStock);
+				tradeCompleted = 'Y';
+			}
+			else {
+				currentStock.setNumberOfShares(currentStock.getNumberOfShares() - sharesToTrade);
+				stockStack.pop(currentStock);
+				stockStack.push(currentStock);
+				tradeCompleted = 'Y';
+			}
+		}
+		else {
+			noTradeStockStack.push(currentStock);
+		}
+	}
+
+	// Move stocks back to original stack
+	while (!noTradeStockStack.empty()) {
+		Stock currentNoTradeStock = noTradeStockStack.bottom();
+		stockStack.push(currentNoTradeStock);
+		noTradeStockStack.remove(currentNoTradeStock);
+	}
+
+	// Print the stock portfolio after trading
+	cout << "\nStock portfolio after trading:" << endl;
+	cout << "------------------------------------------------------------------------" << endl;
+	stockStack.printStack();
+	cout << endl << endl;
+	cout << "Trade completed." << endl;
 	return true;
 }
+
+// ------------------------------------------------------------------------
+
+string stringToUpperCase(string str) {
+	for (char& c : str) {
+		c = toupper(c);
+	}
+	return str;
+}
+
+// ------------------------------------------------------------------------

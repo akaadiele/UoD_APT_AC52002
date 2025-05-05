@@ -1,6 +1,6 @@
-#ifndef STACK_TEMPLATE_H
-#define STACK_TEMPLATE_H
-#include "stack_def.h"
+#ifndef STACK_QUEUE_TEMPLATE_H
+#define STACK_QUEUE_TEMPLATE_H
+#include "stack_queue_def.h"
 
 #include <iostream>
 #include <iomanip>
@@ -16,7 +16,7 @@ Stack<Type> ::Stack(int stack_size) : stackSize(stack_size), contents(new Type[s
 template <class Type>
 Stack<Type> :: ~Stack()
 {
-	delete[] contents;
+	//delete[] contents;
 }
 
 // Member functions
@@ -33,6 +33,7 @@ bool Stack<Type> ::full() const
 }
 
 // push
+// push new element onto the stack at the top
 template <class Type>
 bool Stack<Type> ::push(const Type& new_element)
 {
@@ -47,6 +48,7 @@ bool Stack<Type> ::push(const Type& new_element)
 }
 
 // pop (LIFO)
+// pop element from the stack at the top
 template <class Type>
 bool Stack<Type> ::pop(Type& top_element)
 {
@@ -66,7 +68,7 @@ bool Stack<Type> ::pop(Type& top_element)
 // remove front element (FIFO)
 template <class Type>
 bool Stack<Type>::remove(Type& front_element) {
-//bool Stack<Type>::remove() {
+	//bool Stack<Type>::remove() {
 	if (empty())
 		return false;
 	else
@@ -87,16 +89,53 @@ bool Stack<Type>::remove(Type& front_element) {
 	}
 }
 
+// add
+// Add new element to the stack at the bottom
+template <class Type>
+bool Stack<Type>::add(const Type& new_element) {
+	//if (full()) {
+	//	return false;
+	//}
+	//else {
+	//	for (int i = indexOfTop; i >= 0; i--) {
+	//		contents[i + 1] = contents[i];
+	//	}
+	//	indexOfTop++;
+	//	contents[indexOfFront] = new_element;
+	//	return true;
+	//}
+
+	if (full())
+		return false;
+	else
+	{
+		Type* tempContents = new Type[stackSize];
+		tempContents[0] = new_element;
+
+		int tempIndex = 1;
+		for (int i = 0; i <= indexOfTop; i++) {
+			tempIndex++;
+			tempContents[tempIndex] = contents[i];
+		}
+		delete[] contents;
+		contents = tempContents;
+		indexOfTop = tempIndex;
+
+
+		//// ----
+		//Contents[indexOfFront] = new_element;
+		//Back = (Back + 1) % (Queue_size + 1);
+
+		return true;
+	}
+}
+
+
 // top
 template <class Type>
 Type Stack<Type>::top()
 {
-	if (empty())
-		return false;
-	else
-	{
-		return contents[indexOfTop];
-	}
+	return contents[indexOfTop];
 }
 
 // bottom
@@ -110,21 +149,23 @@ Type Stack<Type>::bottom()
 template <class Type>
 void Stack<Type>::printStack() {
 	for (int i = 0; i <= indexOfTop; i++) {
+		cout.setf(ios::fixed);
+		cout.setf(ios::showpoint);
+		cout.precision(2);
+
 		cout << setw(15) << left << contents[i].printStock() << " " << endl;
-		//cout << contents[i].printStock() << " ";
-		//cout << endl;
 	}
 }
 
 
 template <class Type>
-Type Stack<Type>::getContents() {
-	return contents;
+int Stack<Type>::getIndexOfTop() {
+	return indexOfTop;
 }
 
 template <class Type>
-int Stack<Type>::getIndexOfTop() {
-	return indexOfTop;
+int Stack<Type>::getStockStack() {
+	return stackSize;
 }
 
 // ------------------------------------------------------------------------
