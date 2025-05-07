@@ -61,6 +61,12 @@ int main() {
     cout << endl << "\nStack contents after pop:" << endl;
     int_stack.PrintStack();
 
+	cout << "\nEnter item to push :" << endl;
+    cin >> object;
+    int_stack.Push(object);
+    cout << endl << "\nStack contents after push:" << endl;
+    int_stack.PrintStack();
+
 
     int removeVal;
     cout << "\nRemoving item ... :" << endl;

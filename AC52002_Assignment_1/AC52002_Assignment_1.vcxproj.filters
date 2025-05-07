@@ -15,22 +15,19 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="stack_queue_def.h">
+    <ClInclude Include="portfolio_definition.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="stack_queue_template.h">
+    <ClInclude Include="portfolio_template.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="stock_def.h">
+    <ClInclude Include="stock_definition.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="portfolio_trading_system.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="stock--.h">
-      <Filter>Header Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
