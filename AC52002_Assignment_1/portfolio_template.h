@@ -10,9 +10,10 @@ using namespace std;
 
 // ------------------------------------------------------------------------
 // ------------------------------------------------------------------------
+
 // Constructor
 template <class Type>
-Portfolio<Type> ::Portfolio(int portfolio_size) : portfolioSize(portfolio_size), contents(new Type[portfolio_size]), indexOfTop(-1), indexOfFront(0) {
+Portfolio<Type> ::Portfolio(int portfolio_size) : portfolioSize(portfolio_size), contents(new Type[portfolio_size]), indexOfTop(-1), indexOfBottom(0) {
 }
 
 // Destructor
@@ -45,7 +46,7 @@ bool Portfolio<Type> ::full() const
 // ------------------------------------------------------------------------
 
 // push (LIFO)
-// push new element onto the portfolio at the top
+// push new elements onto the portfolio at the top
 template <class Type>
 bool Portfolio<Type> ::push(const Type& new_element)
 {
@@ -60,7 +61,7 @@ bool Portfolio<Type> ::push(const Type& new_element)
 }
 
 // pop (LIFO)
-// pop element from the portfolio at the top
+// pop elements from the portfolio at the top
 template <class Type>
 bool Portfolio<Type> ::pop(Type& top_element)
 {
@@ -77,14 +78,14 @@ bool Portfolio<Type> ::pop(Type& top_element)
 // ------------------------------------------------------------------------
 
 // remove (FIFO)
-// remove element from the portfolio at the bottom
+// remove elements from the portfolio at the bottom
 template <class Type>
 bool Portfolio<Type>::remove(Type& bottom_element) {
 	if (empty())
 		return false;
 	else
 	{
-		bottom_element = contents[indexOfFront];
+		bottom_element = contents[indexOfBottom];
 
 		Type* tempContents = new Type[portfolioSize];
 		int tempIndex = -1;
@@ -101,7 +102,7 @@ bool Portfolio<Type>::remove(Type& bottom_element) {
 }
 
 // add (FIFO)
-// Add new element to the portfolio at the bottom
+// add new elements to the portfolio at the bottom
 template <class Type>
 bool Portfolio<Type>::add(const Type& new_element) {
 	if (full())
@@ -141,7 +142,7 @@ Type Portfolio<Type>::top()
 template <class Type>
 Type Portfolio<Type>::bottom()
 {
-	return contents[indexOfFront];
+	return contents[indexOfBottom];
 }
 
 // ------------------------------------------------------------------------
@@ -165,9 +166,10 @@ int Portfolio<Type>::getPortfolioSize() {
 template <class Type>
 void Portfolio<Type>::printPortfolio() {
 	for (int i = 0; i <= indexOfTop; i++) {
-		cout.setf(ios::fixed); cout.setf(ios::showpoint); cout.precision(2);
-
-		cout << setw(15) << left << contents[i].printStock() << " " << endl;
+		//cout.setf(ios::fixed); cout.setf(ios::showpoint); cout.precision(2);
+		//cout << setw(15) << left << contents[i].printStock() << " " << endl;
+		cout << fixed << setprecision(2);
+		cout << left << " " << contents[i].getNumberOfShares() << " shares " << contents[i].getName() << " @ " << (char)156 << contents[i].getPricePerShare() << " " << endl;;
 	}
 }
 
@@ -280,7 +282,7 @@ bool Portfolio<Type>::sellFifoInPortfolio(string stockToSellName, int stockToSel
 	}
 
 	// Move stocks back to original portfolio
-	for (int i = 0; i <= noTradeStockStackIndex; i++) {
+	for (int i = noTradeStockStackIndex; i >= 0; i--) {
 		add(noTradeStockStack[i]);
 	}
 

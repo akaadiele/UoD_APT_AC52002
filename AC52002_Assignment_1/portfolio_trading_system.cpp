@@ -9,7 +9,8 @@ using namespace std;
 #include "portfolio_template.h"
 #include "stock_definition.h"
 
-
+// ------------------------------------------------------------------------
+// ------------------------------------------------------------------------
 
 // ------------------------------------------------------------------------
 // Function definitions
@@ -22,13 +23,15 @@ void showStockPortfolio(Portfolio<Stock>& stockPortfolio);
 bool sellFifo(string stockToTrade, Portfolio<Stock>& stockPortfolio);
 bool buyStock(string stockToTrade, Portfolio<Stock>& stockPortfolio);
 bool sellLifo(string stockToTrade, Portfolio<Stock>& stockPortfolio);
-string stringToUpperCase(string str);
+string stringToUpperCase(string stringToConvert);
 // ------------------------------------------------------------------------
 
+// ------------------------------------------------------------------------
+// ------------------------------------------------------------------------
 
 int main() {
 	int portfolioSize, menuInput;
-	char portfolioSetup; string exitInput;
+	string exitInput;
 
 	cout << "\n------------------------------------------------------------------------" << endl;
 	cout << "************************************************************************" << endl;
@@ -53,11 +56,11 @@ int main() {
 		cout << "\n------------------------------------------------------------------------" << endl;
 		cout << "************************************************************************" << endl;
 		cout << "------------------------------------------------------------------------" << endl;
-		cout << "(1) - To enter a stock performance" << endl;
-		cout << "(2) - To find stock" << endl;
-		cout << "(3) - To set up test data" << endl;
-		cout << "(4) - To show stock portfolio" << endl;
-		cout << "(0) - To exit program" << endl;
+		cout << "(1) - Enter stock performance" << endl;
+		cout << "(2) - Find stock" << endl;
+		cout << "(3) - Set up stock data" << endl;
+		cout << "(4) - Show stock portfolio" << endl;
+		cout << "(0) - Exit program" << endl;
 		cout << ">>> "; cin >> menuInput;
 
 		// Check if the input is valid
@@ -105,10 +108,10 @@ int main() {
 				cout << "\nHow would you be setting up your stock data: " << endl;
 				cout << "(1) - To set up data manually" << endl;
 				cout << "(2) - To set up data from file" << endl;
-				int testDataInput;
-				cout << ">>> "; cin >> testDataInput;
+				int setUpModeInput;
+				cout << ">>> "; cin >> setUpModeInput;
 
-				switch (testDataInput)
+				switch (setUpModeInput)
 				{
 				case 1:
 					// Set up data manually
@@ -227,6 +230,14 @@ void stockPerformance(Portfolio<Stock>& stockPortfolio) {
 		}
 		else {
 			cout << "\nPortforlio is retained." << endl;
+			this_thread::sleep_for(chrono::seconds(1));		// Waiting for 1 second
+
+			// Print the stock portfolio after trading
+			cout << "\nStock portfolio after trading:" << endl;
+			cout << "------------------------------------------------------------------------" << endl;
+			stockPortfolio.printPortfolio();
+			cout << endl << endl;
+			cout << "Trade completed." << endl;
 		}
 	}
 }
@@ -300,6 +311,7 @@ bool setUpStockData(Portfolio<Stock>& stockPortfolio, int portfolioSize) {
 		// Get stock name, number of shares, and price per share from user
 		cout << "\nEnter stock name: ";
 		cout << "\n>>> "; cin >> stockName;
+		stockName = string(stockName);
 		stockName = stringToUpperCase(stockName);
 
 		cout << "\nEnter number of shares: ";
@@ -403,7 +415,7 @@ bool setUpStockDataFromFile(Portfolio<Stock>& stockPortfolio, int portfolioSize)
 
 		// Check if the number of shares is valid
 		if (pricePerShare <= 0) {
-			cout << "\n!!! Invalid price." << endl;
+			cout << "\n!!! Invalid price. (Line - " << lineCount << ")" << endl;
 			cout << "Check the file for errors." << endl;
 			return false;
 		}
@@ -555,6 +567,9 @@ bool buyStock(string stockToTrade, Portfolio<Stock>& stockPortfolio) {
 
 	cout << "Enter number of shares to purchase: ";
 	cout << "\n>>> "; cin >> numberOfShares;
+	
+	// Validations on numberOfShares
+	numberOfShares = int(numberOfShares);
 	if (numberOfShares <= 0) {
 		cout << "\n!!! Invalid number of shares." << endl;
 		return false;
@@ -562,6 +577,9 @@ bool buyStock(string stockToTrade, Portfolio<Stock>& stockPortfolio) {
 
 	cout << "Enter price per share for this purchase: ";
 	cout << "\n>>> "; cin >> pricePerShare;
+
+	// Validations on pricePerShare
+	pricePerShare = double(pricePerShare);
 	if (pricePerShare <= 0) {
 		cout << "\n!!! Invalid price." << endl;
 		return false;
@@ -677,13 +695,13 @@ bool sellLifo(string stockToTrade, Portfolio<Stock>& stockPortfolio) {
 
 // ------------------------------------------------------------------------
 
-string stringToUpperCase(string str) {
+string stringToUpperCase(string stringToConvert) {
 	// Function to convert string to uppercase
 
-	for (char& c : str) {
+	for (char& c : stringToConvert) {
 		c = toupper(c);
 	}
-	return str;
+	return stringToConvert;
 }
 
 // ------------------------------------------------------------------------
