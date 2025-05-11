@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{d1c53f92-f61e-42f8-bfc3-a064a32bd9de}</ProjectGuid>
-    <RootNamespace>W22</RootNamespace>
+    <ProjectGuid>{ae5bb13b-0b18-4714-aa49-49bc8cec223d}</ProjectGuid>
+    <RootNamespace>W32</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -127,11 +127,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="intlist.cpp" />
-    <ClCompile Include="main_w2-2.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="intlist.h" />
+    <ClCompile Include="man_w3-2.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

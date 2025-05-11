@@ -1,0 +1,1 @@
+This is an individual assignment. You are free to discuss how you might solve it, but the program which you hand in should be your work alone. In particular, this means that at any time when you are writing the code of your program, you should be doing this without any help from anyone and without any kind of access to the code of another student’s program.
