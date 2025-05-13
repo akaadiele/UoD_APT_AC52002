@@ -15,15 +15,15 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="word_frequency_checker.cpp">
+    <ClCompile Include="man_w3-3.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="word_tree_declarations.h">
+    <ClInclude Include="sortlist.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="word_tree_definitions.h">
+    <ClInclude Include="sortlisttemplate.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

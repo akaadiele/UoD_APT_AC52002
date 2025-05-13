@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{24f10cd3-5950-4524-9c38-955ac697d24f}</ProjectGuid>
-    <RootNamespace>AC52002Assignment2</RootNamespace>
+    <ProjectGuid>{32626747-ead3-49ab-b85b-fafd16b08c2c}</ProjectGuid>
+    <RootNamespace>W213</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -127,11 +127,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="word_frequency_checker.cpp" />
+    <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="word_tree_declarations.h" />
-    <ClInclude Include="word_tree_definitions.h" />
+    <ClInclude Include="stack.h" />
+    <ClInclude Include="stacktemplate.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

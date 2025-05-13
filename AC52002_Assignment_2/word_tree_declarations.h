@@ -1,5 +1,14 @@
-#ifndef WORD_TREE_DEFINITION_H
-#define WORD_TREE_DEFINITION_H
+/*
+* File:	word_tree_definition.h
+* Author:	Akachukwu Adiele
+* Description:	This header file contains the declarations of the WordTree class,
+*				which implements a binary tree to store words and their frequencies.
+*				It is associated with the word_frequency_checker.cpp file.
+* Dates created:	13/05/2025
+*/
+// ------------------------------------------------------------------------
+#ifndef WORD_TREE_DECLARATIONS_H
+#define WORD_TREE_DECLARATIONS_H
 
 #include <iostream>
 #include <string>
@@ -8,12 +17,10 @@ using namespace std;
 // ------------------------------------------------------------------------
 // ------------------------------------------------------------------------
 
-class WordTree
-{
+class WordTree {
 private:
 	// Node structure for the binary tree
-	class Node
-	{
+	class Node {
 	public:
 		string word;
 		int frequency;

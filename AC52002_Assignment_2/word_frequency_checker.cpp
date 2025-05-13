@@ -1,3 +1,12 @@
+/*
+* File:	word_frequency_checker.cpp
+* Author:	Akachukwu Adiele
+* Description:	This program analyzes a file to process each word and count their frequency/occurences.
+*				It uses a binary tree to store the words and their frequencies.
+*				The program allows the user to view the results in alphabetical order or by frequency.
+* Dates created:	13/05/2025
+*/
+// ------------------------------------------------------------------------
 #include <iostream>
 #include <string>
 #include <fstream>
@@ -6,30 +15,33 @@
 using namespace std;
 
 // Include the WordTree header file
-#include "word_tree_template.h"
+#include "word_tree_definitions.h"
 
 // ------------------------------------------------------------------------
 // ------------------------------------------------------------------------
-// Function definitions
+// Declaring functions
 bool readFileAndInsertWords(WordTree& wordTree);
 string removePunctuation(string word);
 string stringToLowerCase(string word);
 // ------------------------------------------------------------------------
-
-// ------------------------------------------------------------------------
 // ------------------------------------------------------------------------
 
-int main()
-{
+int main() {
+	// ------------------------------------------------------------------------
 	// Declaring variables
-	int menuInput; string exitInput;
+	int menuInput;
+	char exitFlag;
 
+	// ------------------------------------------------------------------------
+	// Creating class objects
 	WordTree wordTreeByAlphabet; // Create a WordTree object
 	WordTree wordTreeByFrequency; // Create a WordTree object
 
 	// Welcome message on screen
 	cout << string(100, '-') << endl;
-	cout << "Welcome to the Word Frequency Checker!" << endl;
+	cout << string(100, '*') << endl;
+	cout << string(10, ' ') << "Welcome to 'LexiByte - Word Frequency Checker' !!!" << endl;
+	cout << string(100, '*') << endl;
 	cout << string(100, '-') << endl;
 	cout << "This program will read a file and count the frequency of each word." << endl;
 	cout << "After analysis is complete, you may print the result in order of the words or frequency." << endl;
@@ -57,12 +69,12 @@ int main()
 		// Check if the input is valid
 		if ((menuInput < 0) || (menuInput > 3)) {
 			cout << "!!! Invalid input... Please try again." << endl;
-			exitInput = "N";
+			exitFlag = 'N';
 		}
 		else {
 			cout << string(100, '-') << endl;
-			switch (menuInput)
-			{
+
+			switch (menuInput) {
 			case 1:
 				// Print the words in alphabetical order
 				cout << "\nAnalysis Result in alphabetical order. \n[ Words (number of occurences) ]:" << endl;
@@ -70,7 +82,7 @@ int main()
 				wordTreeByAlphabet.printInOrderTraversal(wordTreeByAlphabet.getRoot()); // Print the tree via in-order traversal
 				cout << endl << endl;
 
-				exitInput = "N";
+				exitFlag = 'N';
 				break;
 
 			case 2:
@@ -80,38 +92,37 @@ int main()
 				wordTreeByFrequency.printInOrderTraversal(wordTreeByFrequency.getRoot()); // Print the tree via in-order traversal
 				cout << endl;
 
-				exitInput = "N";
+				exitFlag = 'N';
 				break;
 
 			case 3:
 				// Analyse a new file
-				cout << string(50, '-') << endl;
 				wordTreeByAlphabet.resetTree(); // Clear the frequency tree
 				wordTreeByFrequency.resetTree(); // Clear the frequency tree
 				readFileAndInsertWords(wordTreeByAlphabet); // Read the file and insert words into the tree
 				wordTreeByAlphabet.buildFrequencySortedTree(wordTreeByAlphabet.getRoot(), wordTreeByFrequency); // Build the frequency sorted tree
 				cout << endl;
 
-				exitInput = "N";
+				exitFlag = 'N';
 				break;
 
 			case 0:
 				// Exit the program
 				cout << "Exiting the program..." << endl;
 
-				exitInput = "Y";
+				exitFlag = 'Y';
 				break;
 
 			default:
 				// Invalid input
 				cout << "!!! Invalid input... Please try again." << endl;
 
-				exitInput = "N";
+				exitFlag = 'N';
 				break;
 			}
 		}
 
-	} while (exitInput.compare("Y"));
+	} while (exitFlag != 'Y');
 
 	exit(0); // Exit the program
 	return 0;
@@ -127,8 +138,7 @@ bool readFileAndInsertWords(WordTree& wordTree) {
 	cout << "\nEnter file name: ";
 	cout << "\n>>> "; cin >> fileName;
 
-	// Check if the file exists and stream file
-	ifstream textFile;
+	ifstream textFile;	// Stream the file
 	textFile.open(fileName);	// Open the file
 
 	// Check if the file opened successfully
@@ -149,10 +159,8 @@ bool readFileAndInsertWords(WordTree& wordTree) {
 		}
 
 		// Performing checks and conversions on the word
-
 		wordInFile = removePunctuation(wordInFile); // Remove punctuation marks from the word
 		wordInFile = stringToLowerCase(wordInFile); // Convert the word to lowercase
-
 
 		wordTree.insertNode(wordInFile);	// Insert the word into the tree
 	}
@@ -173,7 +181,6 @@ bool readFileAndInsertWords(WordTree& wordTree) {
 		cout << "\nAnalysis complete... You may now print the results." << endl << endl;
 		return true;
 	}
-
 }
 
 // ------------------------------------------------------------------------
@@ -198,3 +205,5 @@ string stringToLowerCase(string word) {
 	}
 	return word;
 }
+
+// ------------------------------------------------------------------------

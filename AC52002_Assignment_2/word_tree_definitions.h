@@ -1,8 +1,17 @@
-#ifndef WORD_TREE_TEMPLATE_H
-#define WORD_TREE_TEMPLATE_H
+/*
+* File:	word_tree_template.h
+* Author:	Akachukwu Adiele
+* Description:	This header file contains the definitions of the WordTree class member functions
+*				already declared in the word_tree_declarations.h file.
+*				It is associated with the word_frequency_checker.cpp file.
+* Dates created:	13/05/2025
+*/
+// ------------------------------------------------------------------------
+#ifndef WORD_TREE_DEFINITIONS_H
+#define WORD_TREE_DEFINITIONS_H
 
-
-#include "word_tree_definition.h"
+// Include header file for the WordTree class definition
+#include "word_tree_declarations.h"
 
 // ------------------------------------------------------------------------
 // ------------------------------------------------------------------------
@@ -11,16 +20,19 @@
 WordTree::WordTree() : root(nullptr) {}
 
 // Destructor
-WordTree::~WordTree()
-{
+WordTree::~WordTree() {
 	resetTree();
 }
 
+// ------------------------------------------------------------------------
+// ------------------------------------------------------------------------
+
 // Check if the tree is empty
-bool WordTree::empty() const
-{
+bool WordTree::empty() const {
 	return (root == nullptr);
 }
+
+// ------------------------------------------------------------------------
 
 // Function to create a new node with 'word' only
 WordTree::Node* WordTree::createNode(const string& newWord) {
@@ -32,13 +44,13 @@ WordTree::Node* WordTree::createNode(const string& newWord) {
 	return newNode;
 }
 
+// ------------------------------------------------------------------------
+
 // Function to insert a new node into the tree
-bool WordTree::insertNode(const string& newWord)
-{
+bool WordTree::insertNode(const string& newWord) {
 	char wordInserted = 'N';
 
-	if (empty())
-	{
+	if (empty()) {
 		//Node* newNode = new Node(newWord);
 		root = createNode(newWord);
 		wordInserted = 'Y';
@@ -46,51 +58,42 @@ bool WordTree::insertNode(const string& newWord)
 	else {
 		Node* current = root;
 
-		while (wordInserted == 'N')
-		{
-			if (newWord < current->word)
-			{
-				if (current->left == nullptr)
-				{
+		while (wordInserted == 'N') {
+			if (newWord < current->word) {
+				if (current->left == nullptr) {
 					//current->left = new Node(newWord);
 					current->left = createNode(newWord);
 					wordInserted = 'Y';
 				}
 				current = current->left;
 			}
-			else if (newWord > current->word)
-			{
-				if (current->right == nullptr)
-				{
+			else if (newWord > current->word) {
+				if (current->right == nullptr) {
 					//current->right = new Node(newWord);
 					current->right = createNode(newWord);
 					wordInserted = 'Y';
 				}
 				current = current->right;
 			}
-			else
-			{
+			else {
 				current->frequency++;  // Word already exists, increment frequency
 				wordInserted = 'Y';
 			}
 		}
 	}
 
-	if (wordInserted == 'Y')
-	{
+	if (wordInserted == 'Y') {
 		return true;
 	}
-	else
-	{
+	else {
 		return false; // Insertion failed
 	}
 }
 
-
+// ------------------------------------------------------------------------
 
 // Function to print the tree nodes via in-order traversal
-void WordTree::printInOrderTraversal(Node* node) const
-{
+void WordTree::printInOrderTraversal(Node* node) const {
 	if (node != nullptr) {
 		// Traverse left subtree
 		printInOrderTraversal(node->left);
@@ -101,19 +104,18 @@ void WordTree::printInOrderTraversal(Node* node) const
 	}
 }
 
-
+// ------------------------------------------------------------------------
 
 // Function to get the root node of the tree
-WordTree::Node* WordTree::getRoot() const
-{
+WordTree::Node* WordTree::getRoot() const {
 	return root;
 }
 
+// ------------------------------------------------------------------------
 
 // Function to build a new tree instance with the same nodes but sorted by the word frequency
 void WordTree::buildFrequencySortedTree(Node* node, WordTree& wordTreeFrequency) {
-	if (node != nullptr)
-	{
+	if (node != nullptr) {
 		wordTreeFrequency.insertNodeSortFrequency(node); // Insert the node into the sorted array
 
 		buildFrequencySortedTree(node->left, wordTreeFrequency);	// Traverse left subtree
@@ -122,6 +124,7 @@ void WordTree::buildFrequencySortedTree(Node* node, WordTree& wordTreeFrequency)
 	}
 }
 
+// ------------------------------------------------------------------------
 
 // Function to create a new node with both word and frequency
 WordTree::Node* WordTree::createNodeWithFrequency(const string& newWord, const int frequency) {
@@ -133,10 +136,10 @@ WordTree::Node* WordTree::createNodeWithFrequency(const string& newWord, const i
 	return newNode;
 }
 
+// ------------------------------------------------------------------------
 
 // Function to insert a new node into the tree, prioritizing order by frequency and then alphabetically
-bool WordTree::insertNodeSortFrequency(Node* node)
-{
+bool WordTree::insertNodeSortFrequency(Node* node) {
 	char wordInserted = 'N';
 
 	if (empty()) {
@@ -163,12 +166,10 @@ bool WordTree::insertNodeSortFrequency(Node* node)
 				}
 				current = current->right;
 			}
-			else
-			{
+			else {
 				// When the frequency is the same, insert based on word
 				if (node->word < current->word) {
-					if (current->left == nullptr)
-					{
+					if (current->left == nullptr) {
 						current->left = createNodeWithFrequency(node->word, node->frequency);
 						wordInserted = 'Y';
 					}
@@ -186,16 +187,15 @@ bool WordTree::insertNodeSortFrequency(Node* node)
 		}
 	}
 
-	if (wordInserted == 'Y')
-	{
+	if (wordInserted == 'Y') {
 		return true;
 	}
-	else
-	{
+	else {
 		return false; // Insertion failed
 	}
 }
 
+// ------------------------------------------------------------------------
 
 // Function to reset the tree from the root
 void WordTree::resetTree() {
@@ -203,5 +203,6 @@ void WordTree::resetTree() {
 	root = nullptr;
 }
 
+// ------------------------------------------------------------------------
 
 #endif // !1

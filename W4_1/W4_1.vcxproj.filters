@@ -15,15 +15,15 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="word_frequency_checker.cpp">
+    <ClCompile Include="hash_map_test.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="HashMap.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="word_tree_declarations.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="word_tree_definitions.h">
+    <ClInclude Include="HashMap.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
