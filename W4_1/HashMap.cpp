@@ -68,11 +68,19 @@ void HashMap::put(string key, std::string value)
 	}
 	else
 	{
-		// Already in HashMap
-		key_pair->key = key;
-		key_pair->value = value;
+		// // Already in HashMap
+		//key_pair->key = key;
+		//key_pair->value = value;
+		//hash = hash_function(key);
+		//table[hash] = key_pair;
+
+		// My updated logic
+		KeyPair* temp = new KeyPair;
+		temp->key = key;
+		temp->value = value;
+		temp->next = key_pair;
 		hash = hash_function(key);
-		table[hash] = key_pair;
+		table[hash] = temp;
 	}
 }
 
@@ -95,7 +103,7 @@ void HashMap::showMap()
 			// Output any 'chained' daat in this Hash slot
 			while (key_pair)
 			{
-				cout << "->" << key_pair->key << " : " << key_pair->value;
+				cout << " -> " << key_pair->key << " : " << key_pair->value;
 				key_pair = key_pair->next;
 			}
 			cout << endl;

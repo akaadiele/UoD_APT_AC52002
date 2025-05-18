@@ -1,16 +1,18 @@
 /*
-* File:	word_tree_template.h
+* File:	word_tree_definitions.h
 * Author:	Akachukwu Adiele
 * Description:	This header file contains the definitions of the WordTree class member functions
 *				already declared in the word_tree_declarations.h file.
 *				It is associated with the word_frequency_checker.cpp file.
-* Dates created:	13/05/2025
+* Dates created:	18/05/2025
 */
 // ------------------------------------------------------------------------
+
 #ifndef WORD_TREE_DEFINITIONS_H
 #define WORD_TREE_DEFINITIONS_H
 
-// Include header file for the WordTree class definition
+// ------------------------------------------------------------------------
+// Include header file for the WordTree class declarations
 #include "word_tree_declarations.h"
 
 // ------------------------------------------------------------------------
@@ -21,7 +23,7 @@ WordTree::WordTree() : root(nullptr) {}
 
 // Destructor
 WordTree::~WordTree() {
-	resetTree();
+	resetTree(root);	// Reset the tree by deleting all nodes
 }
 
 // ------------------------------------------------------------------------
@@ -93,14 +95,15 @@ bool WordTree::insertNode(const string& newWord) {
 // ------------------------------------------------------------------------
 
 // Function to print the tree nodes via in-order traversal
-void WordTree::printInOrderTraversal(Node* node) const {
+void WordTree::printInOrderTraversal(Node* node, string& output) {
 	if (node != nullptr) {
-		// Traverse left subtree
-		printInOrderTraversal(node->left);
-		// Print current node
-		cout << node->word << " (" << node->frequency << ")" << endl;
-		// Traverse right subtree
-		printInOrderTraversal(node->right);
+		printInOrderTraversal(node->left, output);	// Traverse left subtree
+				
+		cout << node->word << " (" << node->frequency << ")" << endl;	// Print current node
+		
+		output += node->word + " (" + to_string(node->frequency) + ") \n";	// Append to output string
+				
+		printInOrderTraversal(node->right, output);	// Traverse right subtree
 	}
 }
 
@@ -116,7 +119,7 @@ WordTree::Node* WordTree::getRoot() const {
 // Function to build a new tree instance with the same nodes but sorted by the word frequency
 void WordTree::buildFrequencySortedTree(Node* node, WordTree& wordTreeFrequency) {
 	if (node != nullptr) {
-		wordTreeFrequency.insertNodeSortFrequency(node); // Insert the node into the sorted array
+		wordTreeFrequency.insertNodeSortFrequency(node); // Insert the node into the array sorted by frequency
 
 		buildFrequencySortedTree(node->left, wordTreeFrequency);	// Traverse left subtree
 
@@ -198,11 +201,38 @@ bool WordTree::insertNodeSortFrequency(Node* node) {
 // ------------------------------------------------------------------------
 
 // Function to reset the tree from the root
-void WordTree::resetTree() {
-	// Reset the root to null in the tree to avoid memory leaks
-	root = nullptr;
+void WordTree::resetTree(Node* node) {
+	// Reset the binary tree by traversing and deleting each node
+	
+	if (node != nullptr) {
+		resetTree(node->left);	// Reset left subtree
+		resetTree(node->right);	// Reset right subtree
+		delete node;			// Delete the current node
+
+		if (node == root) {
+			root = nullptr;	// Set root to nullptr after deleting all nodes
+		}
+	}
 }
 
 // ------------------------------------------------------------------------
 
-#endif // !1
+// Function to count the number of nodes and their frequencies
+void WordTree::countNodesFrequency(Node* node, int& nodeCount, int& frequencyCount) {
+	//int count = 0;
+	Node* currentNode = node;
+
+	if (currentNode != nullptr) {
+		countNodesFrequency(currentNode->left, nodeCount, frequencyCount);	// Count left subtree
+		countNodesFrequency(currentNode->right, nodeCount, frequencyCount);	// Count right subtree
+
+		nodeCount++;	// Increment the count for the current node
+		frequencyCount += currentNode->frequency;	// Increment the frequency count
+	}
+}
+
+// ------------------------------------------------------------------------
+
+#endif
+
+// ------------------------------------------------------------------------

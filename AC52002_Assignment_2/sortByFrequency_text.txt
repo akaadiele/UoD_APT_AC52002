@@ -1,0 +1,14 @@
+test (2) 
+data (1) 
+interesting (1) 
+more (1) 
+my (1) 
+please (1) 
+program (1) 
+than (1) 
+this (1) 
+with (1) 
+
+
+Total number of unique words in the file: 10
+Total number of words in the file: 11
